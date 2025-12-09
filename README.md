@@ -5,6 +5,7 @@
 - [¿Qué necesitas?](#qué-necesitas)
 - [Entendiendo el problema CGNAT](#entendiendo-el-problema-cgnat)
 - [Instalación en el VPS (Servidor)](#instalación-en-el-vps-servidor)
+- [Auditoría del script](#auditoría-del-script)
 - [Instalación en Casa (Raspberry Pi/CasaOS)](#instalación-en-casa-raspberry-picasaos)
 - [Conectar tu móvil u otros dispositivos](#conectar-tu-móvil-u-otros-dispositivos)
 - [Verificar que funciona](#verificar-que-funciona)
@@ -12,10 +13,10 @@
 - [Comandos útiles](#comandos-útiles)
 - [Recursos adicionales](#recursos-adicionales)
 - [Preguntas frecuentes](#preguntas-frecuentes)
-- [Tips y buenas prácticas](#-tips-y-buenas-prácticas)
-- [Changelog](#-changelog)
-- [Contribuir](#-contribuir)
-- [Licencia](#-licencia)
+- [Tips y buenas prácticas](#tips-y-buenas-prácticas)
+- [Changelog](#changelog)
+- [Contribuir](#contribuir)
+- [Licencia](#licencia)
 
 ---
 
@@ -94,32 +95,7 @@ Llama y pregunta: _"¿Estoy bajo CGNAT? ¿Puedo tener una IP pública?"_
 Si no tienes un VPS, consigue uno gratis con Oracle Cloud:
 - **[Tutorial completo aquí](https://www.youtube.com/watch?v=ejemplo)**
 
-### Paso 2: Instalar requisitos previos
-
-Conéctate a tu VPS por SSH y ejecuta:
-
-Actualizar el sistema:
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-Instalar Docker:
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-```
-Verificar que Docker funciona:
-```bash
-docker --version
-docker compose version
-```
-
-**Salida esperada:**
-```text
-Docker version 24.0.7, build afdd53b
-Docker Compose version v2.23.0
-```
-
-### Paso 3: Ejecutar el instalador automático
+### Paso 2: Ejecutar el instalador automático
 
 Descargar el script de instalación:
 ```bash
@@ -139,7 +115,7 @@ sudo ./setup_wireguard_vps.sh
 curl -fsSL https://raw.githubusercontent.com/davidrumbaut620/Setup-WIREGUARD-VPS/refs/heads/main/setup_wireguard_vps.sh | sudo bash
 ```
 
-### Paso 4: Seguir las instrucciones del instalador
+### Paso 3: Seguir las instrucciones del instalador
 
 El script te irá guiando paso a paso:
 
@@ -158,7 +134,7 @@ El script te irá guiando paso a paso:
    - Ubicación de los archivos de configuración
    - Comandos útiles
 
-### Paso 5: Configurar el firewall (IMPORTANTE para Oracle Cloud)
+### Paso 4: Configurar el firewall (IMPORTANTE para Oracle Cloud)
 
 Si usas **Oracle Cloud**, debes abrir el puerto manualmente:
 
@@ -179,7 +155,7 @@ Si usas **Oracle Cloud**, debes abrir el puerto manualmente:
 
 5. Clic en **Add Ingress Rules**
 
-### Paso 6: Anotar información importante
+### Paso 5: Anotar información importante
 
 El script te mostrará al final:
 
@@ -191,7 +167,7 @@ El script te mostrará al final:
 
 **📝 ANOTA ESTA IP, LA NECESITARÁS MÁS TARDE**
 
-### Paso 7: Obtener las claves del servidor
+### Paso 6: Obtener las claves del servidor
 
 Ver la configuración del servidor:
 ```bash
@@ -204,6 +180,12 @@ cat wg0.conf
 - `PrivateKey` (Clave privada del VPS)
 
 ---
+
+## 🔎 Auditoría del script
+
+Si quieres una explicación detallada y una auditoría línea por línea del instalador automático, puedes usar este enlace y pedirle a ChatGPT que analice el script:
+
+https://chatgpt.com/?q=Audita+exhaustivamente+este+script+de+WireGuard:+revisar+linea+por+linea,+comprobar+que+no+existan+vectores+ocultos+de+riesgo,+y+dame+un+reporte+en+detalle.+Analiza+este+script+y+explica+que+contiene+y+si+tiene+algun+virus+o+codigo+malicioso:+https://raw.githubusercontent.com/davidrumbaut620/Setup-WIREGUARD-VPS/refs/heads/main/setup_wireguard_vps.sh
 
 ## 🏠 Instalación en Casa (Raspberry Pi/CasaOS)
 
@@ -228,22 +210,6 @@ ssh pi@192.168.1.X  # Reemplaza X con la IP de tu Raspberry
     sudo nmap -sn 192.168.1.0/24
     ```
   - En Windows: descarga Advanced IP Scanner
-
-#### Paso 2: Instalar Docker (si no lo tienes)
-
-Instalar Docker:
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-```
-Agregar tu usuario al grupo docker:
-```bash
-sudo usermod -aG docker $USER
-```
-Reiniciar para aplicar cambios:
-```bash
-sudo reboot
-```
 
 #### Paso 3: Crear estructura de carpetas
 
@@ -689,29 +655,6 @@ Reinicia:
 docker compose restart
 ```
 
-### Error: "Docker not found"
-
-Instalar Docker:
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-```
-Verificar:
-```bash
-docker --version
-```
-
-### Error: "Permission denied" al ejecutar Docker
-
-Agregar tu usuario al grupo docker:
-```bash
-sudo usermod -aG docker $USER
-```
-Reiniciar sesión o reiniciar:
-```bash
-sudo reboot
-```
-
 ### El móvil se conecta pero no funciona nada
 
 **Verifica que el peer del móvil tiene AllowedIPs correcto**
@@ -870,11 +813,7 @@ No. Una vez configurado, funciona indefinidamente sin costos adicionales (si usa
 1. **Cambia las claves periódicamente** (cada 6–12 meses)
 2. **No compartas los QR codes** con nadie
 3. **Usa contraseñas fuertes** en tu VPS y Raspberry
-4. **Actualiza regularmente:**
-   ```bash
-   docker compose pull
-   docker compose up -d
-   ```
+4. **Mantén tus claves seguras y tu VPS actualizado** (el instalador gestiona dependencias automáticamente)
 
 ### Rendimiento
 
