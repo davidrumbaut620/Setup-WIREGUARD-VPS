@@ -110,9 +110,9 @@ Ejecutarlo:
 sudo ./setup_wireguard_vps.sh
 ```
 
-**O en una sola línea:**
+**O en una sola línea con --auto (RÁPIDO):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/davidrumbaut620/Setup-WIREGUARD-VPS/refs/heads/main/setup_wireguard_vps.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/davidrumbaut620/Setup-WIREGUARD-VPS/refs/heads/main/setup_wireguard_vps.sh | sudo bash -s -- --auto
 ```
 
 ### Paso 3: Seguir las instrucciones del instalador
